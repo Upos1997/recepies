@@ -6,22 +6,24 @@ import json
 @dataclass
 class CookBook:
     def __init__(self):
-        self.recepies = []
-        self.ingredients = {}
-        self.tags = {}
+        self.recepies: list[Recepy] = []
+        self.ingredients: dict[str, list[Recepy]] = {}
+        self.tags: dict[str, list[Recepy]] = {}
+        self.sources: dict[str, list[Recepy]] = {}
 
     def add_recepy(self, recepy: Recepy) -> None:
-        def update_dict(dict: dict, item) -> None:
+        def update_dict(dict: dict[str, list[Recepy]], item: str) -> None:
             if item in dict:
                 dict[item].append(recepy)
             else:
                 dict[item] = [recepy]
 
         self.recepies.append(recepy)
-        for ingredient in recepy.ingredients.keys():
-            update_dict(self.ingredients, ingredient)
+        for ingredient_name in recepy.ingredients.keys():
+            update_dict(self.ingredients, ingredient_name)
         for tag in recepy.tags:
             update_dict(self.tags, tag)
+        update_dict(self.sources, recepy.source)
 
     def delete_recepy(self, recepy: Recepy) -> None:
         for ingredient in recepy.ingredients.keys():
@@ -46,18 +48,21 @@ class CookBook:
     def find_recepy_by_tag(self, tag: str) -> list[Recepy]:
         return self.tags[tag]
 
+    def __serialize(self) -> dict:
+        return {"recepies": [recepy.serialize() for recepy in self.recepies]}
+
+    @staticmethod
+    def __deserialize(serialized_cookbook):
+        result = CookBook()
+        for serialized_recepy in serialized_cookbook["recepies"]:
+            result.add_recepy(Recepy.deserialize(serialized_recepy))
+        return result
+
     def save(self, address: str):
         with open(address, "w") as file:
-            json.dump([recepy.serialize() for recepy in self.recepies], file)
-
-    def load(self, file):
-        self.recepies = []
-        self.ingredients = {}
-        self.tags = {}
-        for recepy in json.load(file):
-            self.add_recepy(Recepy.deserialize(recepy))
-        file.close()
-
-    def load_str(self, address: str):
+            json.dump(self.__serialize(), file)
+        
+    @staticmethod
+    def load(address: str):
         with open(address, "r") as file:
-            self.load(file)
+            return CookBook.__deserialize(json.load(file))

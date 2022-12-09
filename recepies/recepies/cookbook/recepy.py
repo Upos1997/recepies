@@ -8,17 +8,19 @@ class Recepy:
     def __init__(
         self,
         name: str,
-        ingredients: dict,
+        ingredients: dict[str, Quantity],
         instructions: str,
         tags: list[str] = "",
-        image=None,
+        source: str = "",
+        image = None,
         quantity: Quantity = Quantity(),
         notes: str = "",
     ):
         self.name: str = name
-        self.ingredients: dict = ingredients
-        self.instructions: list = instructions.split("|")
-        self.tags: list = tags
+        self.ingredients: dict[str, Quantity] = ingredients
+        self.instructions: list[str] = instructions.split("|")
+        self.tags: list[str] = tags
+        self.source: str = source
         self.image = image
         self.quantity: Quantity = quantity
         self.notes: str = notes
@@ -26,10 +28,10 @@ class Recepy:
     def __repr__(self) -> str:
         return f"Recepy({self.name})"
 
-    def contains(self, search_ingredient: str) -> list:
+    def contains(self, search_ingredient: str) -> list[str]:
         return [
             ingredient
-            for ingredient in self.ingredients.values()
+            for ingredient in self.ingredients.keys()
             if search_ingredient in ingredient
         ]
 
@@ -54,30 +56,29 @@ INGREDIENTS
 {self.notes}"""
         )
 
-    def serialize(self):
-        return [
-            self.name,
-            [
-                (quantity.serialize(), ingredient)
-                for ingredient, quantity in self.ingredients.items()
-            ],
-            "".join(self.instructions),
-            self.tags,
-            self.image,
-            self.quantity.serialize(),
-            self.notes,
-        ]
+    def serialize(self) -> dict:
+        return {
+            "name": self.name,
+            "ingredients": [{"name": ingredient, "quantity": quantity.serialize} for ingredient, quantity in self.ingredients.items()],
+            "instructions": "".join(self.instructions),
+            "tags": self.tags,
+            "source": self.source,
+            "image": self.image,
+            "quantitiy": self.quantity.serialize(),
+            "notes": self.notes,
+        }
 
     @staticmethod
-    def deserialize(serialized_list):
-        name = serialized_list[0]
+    def deserialize(serialized_recepy):
+        name = serialized_recepy["name"]
         ingredients = {
-            ingredient[1]: Quantity.deserialize(ingredient[0])
-            for ingredient in serialized_list[1]
+            ingredient["name"]: Quantity.deserialize(ingredient["quantity"])
+            for ingredient in serialized_recepy["ingredients"]
         }
-        instructions = serialized_list[2]
-        tags = serialized_list[3]
-        image = serialized_list[4]
-        quantity = Quantity.deserialize(serialized_list[5])
-        notes = serialized_list[6]
-        return Recepy(name, ingredients, instructions, tags, image, quantity, notes)
+        instructions = serialized_recepy["instructions"]
+        tags = serialized_recepy["tags"]
+        source = serialized_recepy["source"]
+        image = serialized_recepy["image"]
+        quantity = Quantity.deserialize(serialized_recepy["quantity"])
+        notes = serialized_recepy["notes"]
+        return Recepy(name, ingredients, instructions, tags, source, image, quantity, notes)
