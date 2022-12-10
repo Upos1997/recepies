@@ -30,24 +30,53 @@ class CookBook:
             self.ingredients[ingredient].remove(recepy)
         self.recepies.remove(recepy)
 
-    def filter_by_name(name: str, list: list[Recepy]) -> list[Recepy]:
-        return [recepy for recepy in list if name in recepy.name]
+    def __filter_by_name(name: str, list: list[Recepy]) -> filter[Recepy]:
+        return filter(lambda recepy: name in recepy.name, list)
 
-    def filter_by_ingredient(ingredient: str, list: list[Recepy]) -> list[Recepy]:
-        return list(filter(lambda recepy: recepy.contains(ingredient)), list)
+    def __filter_by_ingredient(ingredient: str, list: list[Recepy]) -> filter[Recepy]:
+        return filter(lambda recepy: recepy.contains(ingredient), list)
 
-    def filter_by_tag(tag: str, list: list[Recepy]) -> list[Recepy]:
-        return list(filter(lambda recepy: tag in recepy.tags), list)
+    def __filter_by_tag(tag: str, list: list[Recepy]) -> filter[Recepy]:
+        return filter(lambda recepy: tag in recepy.tags, list)
 
-    def find_recepy_by_name(self, name: str) -> list[Recepy]:
-        return self.filter_by_name(name, self.recepies)
+    def __filter_by_source(source: str, list: list[Recepy]) -> filter[Recepy]:
+        return filter(lambda recepy: source in recepy.source, list)
 
-    def find_recepy_by_ingredient(self, ingredient: str) -> list[Recepy]:
+    def __find_recepy_by_name(self, name: str) -> list[Recepy]:
+        return self.__filter_by_name(name, self.recepies)
+
+    def __find_recepy_by_ingredient(self, ingredient: str) -> list[Recepy]:
         return self.ingredients[ingredient]
 
-    def find_recepy_by_tag(self, tag: str) -> list[Recepy]:
+    def __find_recepy_by_tag(self, tag: str) -> list[Recepy]:
         return self.tags[tag]
 
+    def __find_recepy_by_source(self, source: str) -> list[Recepy]:
+        return self.sources[source]
+
+    def find_recepies(self, names: list[str], ingredients: list[str], tags: list[str], sources: list[str]) -> list[Recepy]:
+        short_list: list[Recepy] = []
+        if (ingredients):
+            short_list = self.__find_recepy_by_ingredient(ingredients[0])
+            del ingredients[0]
+        elif (tags):
+            short_list = self.__find_recepy_by_tag(tags[0])
+            del tags[0]
+        elif (sources):
+            short_list = self.__find_recepy_by_source(sources[0])
+            del sources[0]
+        elif (names):
+            short_list = self.__find_recepy_by_name(names[0])
+            del names[0]
+        for name in names:
+            short_list = self.__filter_by_name(name, short_list)
+        for ingredient in ingredients:
+            short_list = self.__filter_by_ingredient(ingredient, short_list)
+        for tag in tags:
+            short_list = self.__filter_by_tag(tag, short_list)
+        for source in sources:
+            short_list = self.__filter_by_source(source, short_list)
+        return list(short_list)
     def __serialize(self) -> dict:
         return {"recepies": [recepy.serialize() for recepy in self.recepies]}
 
@@ -58,7 +87,7 @@ class CookBook:
             result.add_recepy(Recepy.deserialize(serialized_recepy))
         return result
 
-    def save(self, address: str):
+    def save(self, address: str) -> None:
         with open(address, "w") as file:
             json.dump(self.__serialize(), file)
         
