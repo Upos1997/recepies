@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>e6d51f65-c9c1-4edb-8b20-52fccad5ab60</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>recepies\gui\gui.py</StartupFile>
+    <StartupFile>recepies\cookbook\cookbook.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="recepies\cookbook\cookbook.py" />
+    <Compile Include="recepies\gui\recepy_screen.py" />
     <Compile Include="recepies\gui\__init__.py">
       <SubType>Code</SubType>
     </Compile>

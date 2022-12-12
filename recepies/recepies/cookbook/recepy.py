@@ -2,7 +2,6 @@ from dataclasses import dataclass
 import os
 from recepies.cookbook.quantity import Quantity
 
-
 @dataclass
 class Recepy:
     def __init__(

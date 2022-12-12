@@ -1,9 +1,11 @@
 from tkinter import CENTER, NO, Text, ttk
 
+from recepies.cookbook.cookbook import CookBook
 
 class SearchScreen:
-    def __init__(self, root):
+    def __init__(self, root, cookbook: CookBook):
         self.root = root
+        self.cookbook = cookbook
         self.main_root: ttk.Frame = ttk.Frame()
         self.search_root = ttk.Frame(self.main_root)
         self.search_root.grid(column=0, row=0)

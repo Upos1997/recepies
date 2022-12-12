@@ -11,28 +11,7 @@ def main():
     frame.pack(fill="both", expand=True)
     search_screen = SearchScreen(frame)
 
-    def load_cookbook():
-        cookbook.load(filedialog.askopenfile())
-        main_screen()
-
-    def clean_screen():
-        for widget in frame.winfo_children():
-            widget.destroy()
-
-    def load_screen():
-        clean_screen()
-        ttk.Button(frame, text="Nieuw Kookboek", command=main_screen).grid(
-            column=0, row=0
-        )
-        ttk.Button(frame, text="Laad Kookboek", command=load_cookbook).grid(
-            column=0, row=1
-        )
-
-    def main_screen():
-        clean_screen()
-        search_screen.display()
-
-    load_screen()
+    search_screen.display()
     window.mainloop()
 
 

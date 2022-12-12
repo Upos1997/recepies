@@ -30,20 +30,20 @@ class CookBook:
             self.ingredients[ingredient].remove(recepy)
         self.recepies.remove(recepy)
 
-    def __filter_by_name(name: str, list: list[Recepy]) -> filter[Recepy]:
-        return filter(lambda recepy: name in recepy.name, list)
+    def __filter_by_name(name: str, list: list[Recepy]) -> list[Recepy]:
+        return [recepy for recepy in list if recepy.name == name]
 
-    def __filter_by_ingredient(ingredient: str, list: list[Recepy]) -> filter[Recepy]:
+    def __filter_by_ingredient(ingredient: str, list: list[Recepy]) -> filter:
         return filter(lambda recepy: recepy.contains(ingredient), list)
 
-    def __filter_by_tag(tag: str, list: list[Recepy]) -> filter[Recepy]:
+    def __filter_by_tag(tag: str, list: list[Recepy]) -> filter:
         return filter(lambda recepy: tag in recepy.tags, list)
 
-    def __filter_by_source(source: str, list: list[Recepy]) -> filter[Recepy]:
+    def __filter_by_source(source: str, list: list[Recepy]) -> filter:
         return filter(lambda recepy: source in recepy.source, list)
 
     def __find_recepy_by_name(self, name: str) -> list[Recepy]:
-        return self.__filter_by_name(name, self.recepies)
+        return list(self.__filter_by_name(name, self.recepies))
 
     def __find_recepy_by_ingredient(self, ingredient: str) -> list[Recepy]:
         return self.ingredients[ingredient]
@@ -55,7 +55,7 @@ class CookBook:
         return self.sources[source]
 
     def find_recepies(self, names: list[str], ingredients: list[str], tags: list[str], sources: list[str]) -> list[Recepy]:
-        short_list: list[Recepy] = []
+        short_list = []
         if (ingredients):
             short_list = self.__find_recepy_by_ingredient(ingredients[0])
             del ingredients[0]
@@ -68,6 +68,7 @@ class CookBook:
         elif (names):
             short_list = self.__find_recepy_by_name(names[0])
             del names[0]
+        short_list = filter(iterable = short_list)
         for name in names:
             short_list = self.__filter_by_name(name, short_list)
         for ingredient in ingredients:
@@ -77,6 +78,7 @@ class CookBook:
         for source in sources:
             short_list = self.__filter_by_source(source, short_list)
         return list(short_list)
+
     def __serialize(self) -> dict:
         return {"recepies": [recepy.serialize() for recepy in self.recepies]}
 
