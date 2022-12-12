@@ -1,6 +1,7 @@
-from tkinter import Tk, ttk, filedialog
+from tkinter import Tk, ttk
+
+from recipes.recipes.cookbook.cookbook import CookBook
 from search_screen import SearchScreen
-from recepies.cookbook.cookbook import CookBook
 
 
 def main():

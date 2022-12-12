@@ -1,6 +1,6 @@
 from tkinter import CENTER, NO, Text, ttk
 
-from recepies.cookbook.cookbook import CookBook
+from recipes.cookbook.cookbook import CookBook
 
 class SearchScreen:
     def __init__(self, root, cookbook: CookBook):

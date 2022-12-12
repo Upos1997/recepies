@@ -10,7 +10,7 @@ class Quantity:
     def __repr__(self) -> str:
         return f"Quantity({self.amount}, {self.metric})"
 
-    def print(self, multiplier: float = 1) -> None:
+    def print(self, multiplier: float = 1) -> str:
         return f"{self.amount * multiplier} {self.metric}"
 
     def get_multiplier(self, quantity) -> float:
