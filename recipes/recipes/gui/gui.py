@@ -4,17 +4,14 @@ from recipes.recipes.cookbook.cookbook import CookBook
 from search_screen import SearchScreen
 
 
-def main():
-    cookbook = CookBook()
-    window = Tk()
-    window.title("Kookboek")
-    frame = ttk.PanedWindow(window)
-    frame.pack(fill="both", expand=True)
-    search_screen = SearchScreen(frame)
+class Gui:
+    def __int__(self):
+        self.window = Tk()
+        self.window.title("Kookboek")
+        frame = ttk.PanedWindow(self.window)
+        frame.pack(fill="both", expand=True)
+        self.search_screen = SearchScreen(frame)
 
-    search_screen.display()
-    window.mainloop()
-
-
-if __name__ == "__main__":
-    main()
+    def start(self, cookbook: CookBook):
+        self.window.mainloop()
+        self.search_screen.display()
