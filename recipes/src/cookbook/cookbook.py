@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from recipes.recipes.cookbook.recipe import Recipe
+from recipes.src.cookbook.recipe import Recipe
 import json
 
 
@@ -85,12 +85,12 @@ class CookBook:
         return list(short_list)
 
     def __serialize(self) -> dict:
-        return {"recipes": [recipe.serialize() for recipe in self.recipes]}
+        return {"src": [recipe.serialize() for recipe in self.recipes]}
 
     @staticmethod
     def __deserialize(serialized_cookbook):
         result = CookBook()
-        for serialized_recipe in serialized_cookbook["recipes"]:
+        for serialized_recipe in serialized_cookbook["src"]:
             result.add_recipe(Recipe.deserialize(serialized_recipe))
         return result
 

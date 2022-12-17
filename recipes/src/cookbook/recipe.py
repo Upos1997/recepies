@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import os
-from recipes.recipes.cookbook.quantity import Quantity
+from recipes.src.cookbook.quantity import Quantity
 
 
 @dataclass

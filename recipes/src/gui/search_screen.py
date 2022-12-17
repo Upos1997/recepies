@@ -1,8 +1,8 @@
 from tkinter import CENTER, NO, ttk
 
-from recipes.recipes.cookbook.cookbook import CookBook
-from recipes.recipes.cookbook.recipe import Recipe
-from recipes.recipes.gui.screen import Screen
+from recipes.src.cookbook.cookbook import CookBook
+from recipes.src.cookbook.recipe import Recipe
+from recipes.src.gui.screen import Screen
 
 
 class SearchScreen(Screen):
