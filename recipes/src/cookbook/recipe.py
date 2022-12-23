@@ -7,15 +7,19 @@ from recipes.src.cookbook.quantity import Quantity
 class Recipe:
     def __init__(
             self,
-            name: str,
-            ingredients: dict[str, Quantity],
-            instructions: str,
-            tags: list[str] = "",
+            name: str = "Empty",
+            ingredients=None,
+            instructions: str = "Nothing",
+            tags=None,
             source: str = "",
             image=None,
             quantity: Quantity = Quantity(),
             notes: str = "",
     ):
+        if ingredients is None:
+            ingredients = {}
+        if tags is None:
+            tags = []
         self.name: str = name
         self.ingredients: dict[str, Quantity] = ingredients
         self.instructions: list[str] = instructions.split("|")

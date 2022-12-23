@@ -4,6 +4,10 @@ from recipes.src.gui.gui import Gui
 
 def main():
     cookbook = CookBook()
-    cookbook.load("data/save.json")
+    cookbook.load("../data/save.json")
     gui = Gui(cookbook)
     gui.start()
+
+
+if __name__ == "__main__":
+    main()

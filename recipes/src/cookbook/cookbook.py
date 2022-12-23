@@ -14,7 +14,7 @@ class CookBook:
 
     def add_recipe(self, recipe: Recipe) -> None:
         def update_dict(adict: dict[str, list[Recipe]], item: str) -> None:
-            if item in dict:
+            if item in adict:
                 adict[item].append(recipe)
             else:
                 adict[item] = [recipe]
@@ -85,12 +85,12 @@ class CookBook:
         return list(short_list)
 
     def __serialize(self) -> dict:
-        return {"src": [recipe.serialize() for recipe in self.recipes]}
+        return {"recipes": [recipe.serialize() for recipe in self.recipes]}
 
     @staticmethod
     def __deserialize(serialized_cookbook):
         result = CookBook()
-        for serialized_recipe in serialized_cookbook["src"]:
+        for serialized_recipe in serialized_cookbook["recipes"]:
             result.add_recipe(Recipe.deserialize(serialized_recipe))
         return result
 

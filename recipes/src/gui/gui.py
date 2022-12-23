@@ -1,7 +1,7 @@
 from tkinter import Tk, ttk
 
 from recipes.src.cookbook.cookbook import CookBook
-from search_screen import SearchScreen
+from recipes.src.gui.search_screen import SearchScreen
 
 
 class Gui:

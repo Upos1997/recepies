@@ -6,8 +6,7 @@ from recipes.src.gui.screen import Screen
 
 
 class SearchScreen(Screen):
-    def __init__(self, root, cookbook: CookBook):
-        self.root = root
+    def __init__(self, root: ttk.Panedwindow, cookbook: CookBook):
         self.cookbook = cookbook
         self.main_root: ttk.Frame = ttk.Frame()
         # Display search section
@@ -31,6 +30,8 @@ class SearchScreen(Screen):
         self.table.column("naam", anchor=CENTER, width=200)
         self.table.heading("#0", text="", anchor=CENTER)
         self.table.heading("naam", text="Naam", anchor=CENTER)
+        self.change_table(cookbook.recipes)
+        root.add(self.main_root)
 
     def search_cookbook(self) -> None:
         names = self.name_search.get("1.0", 'end-1c').split(", ")

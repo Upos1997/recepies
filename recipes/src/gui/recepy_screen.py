@@ -32,5 +32,4 @@ class RecipeScreen(Screen):
 
     def display_recipe(self, recipe: Recipe) -> None:
         self.__clean_screen()
-        self.recipe = recipe
         self.nameLabel = ttk.Label(self.root, text=recipe.name)
