@@ -1,3 +1,4 @@
+import os
 from dataclasses import dataclass
 
 from recipes.src.cookbook.recipe import Recipe
@@ -101,4 +102,10 @@ class CookBook:
     @staticmethod
     def load(address: str):
         with open(address, "r") as file:
-            return CookBook.__deserialize(json.load(file))
+            file.seek(0, os.SEEK_END)
+            if file.tell():
+                file.seek(0)
+                return CookBook.__deserialize(json.load(file))
+            else:
+                return CookBook()
+

@@ -4,7 +4,7 @@ from recipes.src.gui.screen import Screen
 
 
 class RecipeScreen(Screen):
-    def __init__(self, root, recipe: Recipe) -> None:
+    def __init__(self, root, recipe: Recipe = Recipe()) -> None:
         self.root = root
         main_root: ttk.Frame = ttk.Frame(root)
         main_root.grid()

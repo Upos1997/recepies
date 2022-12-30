@@ -46,6 +46,3 @@ class SearchScreen(Screen):
             self.table.delete(entry)
         for entry in entries:
             self.table.insert(parent='', index='end', values=([entry.name]))
-
-    def display(self) -> None:
-        self.root.add(self.main_root)
